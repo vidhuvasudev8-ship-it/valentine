@@ -3,16 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Valentine's Day!</title>
+    <title>Valentine's Day Surprise</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #ffcccb; }
-        h1 { color: #ff69b4; }
-        p { font-size: 20px; }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: pink;
+            text-align: center;
+            overflow: hidden;
+        }
+        #puppy {
+            width: 300px;
+            display: none;
+        }
+        #yes, #no {
+            margin: 20px;
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
-    <h1>Happy Valentine's Day!</h1>
-    <p>Wishing you a day filled with love and joy!</p>
-    <p>Share your love with someone special today!</p>
+    <div>
+        <h1>Do you want to see a surprise?</h1>
+        <button id="yes">Yes</button>
+        <button id="no">No</button>
+        <img id="puppy" src="puppy.gif" alt="Cute Puppy">
+    </div>
+    <div id="confetti"></div>
+
+    <script>
+        const yesButton = document.getElementById('yes');
+        const noButton = document.getElementById('no');
+        const puppy = document.getElementById('puppy');
+        
+        yesButton.addEventListener('click', () => {
+            puppy.style.display = 'block';
+            createConfetti();
+        });
+
+        noButton.addEventListener('click', () => {
+            alert('Maybe next time!');
+        });
+
+        function createConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.position = 'absolute';
+                confetti.style.width = Math.random() * 10 + 'px';
+                confetti.style.height = Math.random() * 10 + 'px';
+                confetti.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+                confetti.style.top = Math.random() * 100 + '%';
+                confetti.style.left = Math.random() * 100 + '%';
+                confettiContainer.appendChild(confetti);
+                fall(confetti);
+            }
+        }
+
+        function fall(confetti) {
+            const animationDuration = Math.random() * 2 + 3; // 3 to 5 seconds
+            confetti.animate([
+                { transform: 'translateY(0)' },
+                { transform: `translateY(100vh)` }
+            ], { duration: animationDuration * 1000, easing: 'linear' });
+
+            confetti.addEventListener('animationend', () => {
+                confetti.remove();
+            });
+        }
+    </script>
 </body>
 </html>
